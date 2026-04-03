@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+temp/
+payments/
+outputs/
+*.log
+bot_database.db
+.ipynb_checkpoints/
+node_modules/
+.DS_Store

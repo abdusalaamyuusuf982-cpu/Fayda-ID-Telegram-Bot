@@ -1,0 +1,8 @@
+python-telegram-bot
+img2pdf
+Pillow
+python-dotenv
+SQLAlchemy
+psycopg2-binary
+opencv-python
+pytesseract
