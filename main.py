@@ -25,19 +25,23 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     ]
     reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
 
+    is_admin = str(user_id).strip() == str(ADMIN_ID).strip()
+    trial_msg = "🎁 You have `Unlimited` free trials!" if is_admin else f"🎁 You have {user.trials} trials left!"
+
     await update.message.reply_text(
-        "👋 Welcome to Fayda ID Style Bot 🇪🇹\n\n"
-        "🎁 You have 2 FREE trials!\n\n"
+        f"👋 Welcome to Fayda ID Style Bot 🇪🇹\n\n"
+        f"{trial_msg}\n\n"
         "Send LEFT ID → get RIGHT style PNG\n\n"
         "Use menu 👇",
-        reply_markup=reply_markup
+        reply_markup=reply_markup,
+        parse_mode="Markdown"
     )
 
 async def handle_photo(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_user.id
     user = get_or_create_user(user_id)
     
-    is_admin = str(user_id) == str(ADMIN_ID)
+    is_admin = str(user_id).strip() == str(ADMIN_ID).strip()
     
     if not is_admin and user.trials <= 0 and user.credits <= 0:
         await update.message.reply_text("❌ No credits or free trials.")
@@ -88,7 +92,7 @@ async def handle_photo(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def my_status(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_user.id
     user = get_or_create_user(user_id)
-    is_admin = str(user_id) == str(ADMIN_ID)
+    is_admin = str(user_id).strip() == str(ADMIN_ID).strip()
     
     trials_text = "`Unlimited`" if is_admin else f"`{user.trials}`"
     credits_text = "`Unlimited`" if is_admin else f"`{user.credits}`"
